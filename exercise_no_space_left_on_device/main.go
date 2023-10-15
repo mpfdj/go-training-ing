@@ -30,7 +30,9 @@ func main() {
 				n := len(stack) - 1
 				stack = stack[:n]
 
-				stack[len(stack)-1].sum = stack[len(stack)-1].sum + dir.sum
+				if len(stack) >= 1 {
+					stack[len(stack)-1].sum = stack[len(stack)-1].sum + dir.sum
+				}
 
 			} else {
 
@@ -49,11 +51,14 @@ func main() {
 
 				}
 
-				// push
-				name := strings.Split(line, " ")[2]
-				dir := dir{name, sum}
+				if sum < 100000 {
+					// push
+					name := strings.Split(line, " ")[2]
+					dir := dir{name, sum}
 
-				stack = append(stack, dir)
+					stack = append(stack, dir)
+				}
+
 				sum = 0
 
 			} // eof else
@@ -66,6 +71,7 @@ func main() {
 
 	// Calculate total for root directory
 	if len(stack) == 2 {
+
 		dir := stack[len(stack)-1]
 
 		// pop
@@ -100,4 +106,16 @@ func printStack(stack []dir) {
 		s = s + "(" + strconv.Itoa(value.sum) + ")"
 	}
 	fmt.Print(s)
+}
+
+func removeIfGreaterThanMax(stack []dir) {
+	dir := stack[len(stack)-1]
+
+	if dir.sum > 100000 {
+		fmt.Println("REMOVE")
+		// pop
+		n := len(stack) - 1
+		stack = stack[:n]
+	}
+
 }
