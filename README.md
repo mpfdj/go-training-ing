@@ -16,3 +16,9 @@ cd exercise02
 go mod init go-training/exercise02
 go mod tidy
 go get -u github.com/stretchr/testify/assert
+
+
+go mod init go-training/exercise02
+
+
+training.brainhive.nl
