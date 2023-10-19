@@ -15,3 +15,21 @@ cd exercise02
 go mod init go-training/exercise02
 go mod tidy
 go get -u github.com/stretchr/testify/assert
+
+
+
+https://min.io/docs/minio/linux/reference/minio-mc-admin.html?ref=docs#installation
+https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html
+
+
+
+https://github.com/dmeijboom/training-connect-go
+
+
+cd exercise_grpc_todo
+go mod init go-training/exercise_grpc_todo
+
+go install github.com/bufbuild/buf/cmd/buf@latest
+go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+go install github.com/bufbuild/connect-go/cmd/protoc-gen-connect-go@latest
