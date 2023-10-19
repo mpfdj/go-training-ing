@@ -27,7 +27,7 @@ https://min.io/docs/minio/linux/reference/minio-mc.html#id3
 mc alias set localS3 http://localhost:7000
 mc alias list
 mc ls localS3
-
+mc ls --recursive --versions localS3/DOC-EXAMPLE-BUCKET
 
 # XML to Go
 https://jsonformatter.org/xml-to-go?utm_content=cmp-true

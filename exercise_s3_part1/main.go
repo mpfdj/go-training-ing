@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/xml"
+	"fmt"
 	"net/http"
 )
 
@@ -42,7 +43,29 @@ type Owner struct {
 	ID          string `json:"ID"`
 }
 
-func list(w http.ResponseWriter, req *http.Request) {
+func handler(w http.ResponseWriter, req *http.Request) {
+
+	fmt.Println("url: " + req.URL.String())
+	fmt.Println("url path: " + req.URL.Path)
+
+	w.Header().Set("Content-Type", "application/xml")
+
+	bucketParam := req.URL.Query().Get("Bucket")
+	if bucketParam == "DOC-EXAMPLE-BUCKET" {
+		fmt.Println("Listing bucket DOC-EXAMPLE-BUCKET...")
+		http.ServeFile(w, req, "C:/Users/TO11RC/OneDrive - ING/miel/workspace/go/go-training-ing/exercise_s3_part1/s3/bucket_mock.xml")
+	}
+
+	resp := listAllBucketsMock()
+	w.Write(resp)
+}
+func main() {
+	http.HandleFunc("/", handler)
+	http.ListenAndServe(":7001", nil)
+
+}
+
+func listAllBucketsMock() []byte {
 	bucket1 := Bucket{"2019-12-11T23:32:47+00:00", "DOC-EXAMPLE-BUCKET"}
 	bucket2 := Bucket{"2019-11-10T23:32:13+00:00", "DOC-EXAMPLE-BUCKET2"}
 
@@ -57,14 +80,5 @@ func list(w http.ResponseWriter, req *http.Request) {
 	bucketList := ListAllMyBucketsResult{Buckets: b, Owner: owner}
 
 	x, _ := xml.MarshalIndent(bucketList, "", "  ")
-
-	w.Header().Set("Content-Type", "application/xml")
-	w.Write(x)
-
-}
-
-func main() {
-	http.HandleFunc("/", list)
-	http.ListenAndServe(":7000", nil)
-
+	return x
 }
