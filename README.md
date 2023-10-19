@@ -17,10 +17,20 @@ go mod tidy
 go get -u github.com/stretchr/testify/assert
 
 
-
-https://min.io/docs/minio/linux/reference/minio-mc-admin.html?ref=docs#installation
+# AWS S3 ListBuckets
 https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html
 
+
+# MinIO
+https://min.io/docs/minio/linux/reference/minio-mc-admin.html?ref=docs#installation
+https://min.io/docs/minio/linux/reference/minio-mc.html#id3
+mc alias set localS3 http://localhost:7000
+mc alias list
+mc ls localS3
+
+
+# XML to Go
+https://jsonformatter.org/xml-to-go?utm_content=cmp-true
 
 
 https://github.com/dmeijboom/training-connect-go
