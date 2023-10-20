@@ -14,11 +14,15 @@ func TestParseURL(t *testing.T) {
 	//s := "/?hello=world&name=miel"
 	s := "/DOC-EXAMPLE-BUCKET/]"
 
-	result := strings.Split(s, "/")
+	path := strings.Split(s, "/")
 
-	fmt.Println("len: " + strconv.Itoa(len(result)))
-	fmt.Println("element 0: " + result[0])
-	fmt.Println("element 1: " + result[1])
+	fmt.Println("len: " + strconv.Itoa(len(path)))
+	fmt.Println("element 0: " + path[0])
+	fmt.Println("element 1: " + path[1])
+
+	if len(path) > 2 {
+		fmt.Println("List bucket DOC-EXAMPLE-BUCKET")
+	}
 
 	//if len(s) > 2 {
 	//	params, _ := url.ParseQuery(s[2:])

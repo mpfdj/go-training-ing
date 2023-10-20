@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 var data = `<?xml version="1.0" encoding="UTF-8"?>
@@ -44,20 +45,25 @@ type Owner struct {
 }
 
 func handler(w http.ResponseWriter, req *http.Request) {
-
 	fmt.Println("url: " + req.URL.String())
 	fmt.Println("url path: " + req.URL.Path)
 
 	w.Header().Set("Content-Type", "application/xml")
 
-	bucketParam := req.URL.Query().Get("Bucket")
-	if bucketParam == "DOC-EXAMPLE-BUCKET" {
-		fmt.Println("Listing bucket DOC-EXAMPLE-BUCKET...")
-		http.ServeFile(w, req, "C:/Users/TO11RC/OneDrive - ING/miel/workspace/go/go-training-ing/exercise_s3_part1/s3/bucket_mock.xml")
+	path := strings.Split(req.URL.Path, "/")
+	if len(path) == 3 {
+		bucket := path[1]
+		if bucket == "DOC-EXAMPLE-BUCKET" {
+			fmt.Println("Listing bucket DOC-EXAMPLE-BUCKET...")
+			http.ServeFile(w, req, "C:/Users/TO11RC/OneDrive - ING/miel/workspace/go/go-training-ing/exercise_s3_part1/s3/bucket_mock.xml")
+		} else {
+			fmt.Println("Bucket " + bucket + " has not been implemented yet...")
+		}
+	} else {
+		resp := listAllBucketsMock()
+		w.Write(resp)
 	}
 
-	resp := listAllBucketsMock()
-	w.Write(resp)
 }
 func main() {
 	http.HandleFunc("/", handler)
