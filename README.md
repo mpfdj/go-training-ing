@@ -43,3 +43,79 @@ go install github.com/bufbuild/buf/cmd/buf@latest
 go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 go install github.com/bufbuild/connect-go/cmd/protoc-gen-connect-go@latest
+
+
+
+# Analyze Docker Images
+- Docker dive (https://github.com/wagoodman/dive)
+  A tool for exploring a docker image, layer contents, and discovering ways to shrink the size of your Docker/OCI image.
+
+- Docker inspect
+
+
+
+
+cd ./exercise_gin_gonic
+docker build -t go-docker-demo .
+docker run --rm -p 8080:8080 go-docker-demo
+
+# Can't open a shell on the Multi-staged build since it is not installed as it a minimalistic image
+docker exec --rm -it go-docker-demo /bin/bash
+
+
+# k3d
+https://github.com/k3d-io/k3d/releases
+https://github.com/k3d-io/k3d
+k3d cluster create k3d-training
+k3d cluster ls
+kubectl get nodes
+kubectl get pods -A
+
+
+
+
+# Messaging
+- nats and jetstream
+
+# Push image to dockerhub.com
+docker tag go-docker-demo:latest miel1980/go-docker-demo:latest
+docker push miel1980/go-docker-demo
+
+
+cd ./k8s
+kubectl apply -f deployment.yml
+kubectl get deployments
+kubectl get pods -l app=go-docker-demo
+
+kubectl apply -f service.yml
+kubectl get services
+
+
+# Install Helm
+https://helm.sh/docs/intro/install/
+
+
+# Install and deploy cloudnative-pg
+https://github.com/cloudnative-pg/charts
+https://cloudnative-pg.io/documentation/current/quickstart/
+kubectl apply -f cluster-example.yaml
+kubectl get clusters
+
+kubectl get all -A
+kubectl api-resources
+kubectl get -A deployments
+
+
+
+# Assignment Book review
+https://tinyurl.com/book-review-api
+https://github.com/dmeijboom/training-book-review/blob/main/openapi.yml
+https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/dillendev/training-book-review/main/openapi.yml
+https://github.com/dmeijboom/training-book-review/blob/main/books.sql
+https://gorm.io/docs/
+
+
+kubectl get clusters -A
+kubectl.exe describe cluster cluster-example
+kubectl -n default port-forward cluster-example-1 5432:5432
+

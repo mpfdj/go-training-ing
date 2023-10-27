@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-docker-demo-deployment
+  labels:
+    app: go-docker-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-docker-demo
+  template:
+    metadata:
+      labels:
+        app: go-docker-demo
+    spec:
+      containers:
+        - name: go-docker-demo
+          image: miel1980/go-docker-demo:latest
+          ports:
+            - containerPort: 8080
