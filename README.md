@@ -98,13 +98,15 @@ https://helm.sh/docs/intro/install/
 # Install and deploy cloudnative-pg
 https://github.com/cloudnative-pg/charts
 https://cloudnative-pg.io/documentation/current/quickstart/
+https://github.com/cloudnative-pg/cloudnative-pg/blob/main/docs/src/quickstart.md
+
 kubectl apply -f cluster-example.yaml
 kubectl get clusters
 
 kubectl get all -A
 kubectl api-resources
 kubectl get -A deployments
-
+get pods -l cnpg.io/cluster=cluster-example
 
 
 # Assignment Book review
@@ -118,4 +120,76 @@ https://gorm.io/docs/
 kubectl get clusters -A
 kubectl.exe describe cluster cluster-example
 kubectl -n default port-forward cluster-example-1 5432:5432
+kubectl port-forward --address localhost cluster-example-1 5432:5432 -n default
+kubectl logs cluster-example-1
+
+
+# Download PostgreSQL
+https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
+psql -h localhost -p 5432 -U postgres
+
+
+
+
+kubernetes cluster cnpg psql user postgres has no password assigned
+
+
+
+
+
+
+
+# ------------------------------------------------------
+# Set password for postgres user
+# ------------------------------------------------------
+
+
+If you have a Kubernetes cluster running and you want to set a password for the `postgres` user in a PostgreSQL database, you can do so by following these steps:
+
+1. **Access the PostgreSQL Pod**: You'll need to access the PostgreSQL pod where your PostgreSQL database is running. You can use `kubectl` to do this:
+
+   ```bash
+   kubectl exec -it <pod-name> -- /bin/bash
+   ```
+
+   Replace `<pod-name>` with the actual name of your PostgreSQL pod.
+
+2. **Access PostgreSQL Shell**: Once you're inside the pod, you can access the PostgreSQL shell using the `psql` command:
+
+   ```bash
+   psql -U postgres
+   ```
+
+   This will connect you to the PostgreSQL database as the `postgres` user.
+
+3. **Change Password**: To change the password for the `postgres` user, you can use the following SQL command:
+
+   ```sql
+   ALTER USER postgres PASSWORD 'new_password';
+   ```
+
+   Replace `'new_password'` with the actual password you want to set.
+
+4. **Exit the PostgreSQL Shell**: You can exit the PostgreSQL shell by typing:
+
+   ```sql
+   \q
+   ```
+
+5. **Exit the Pod**: Exit the pod shell to return to your local terminal:
+
+   ```bash
+   exit
+   ```
+
+6. **Restart the Pod**: After changing the password, you may need to restart the PostgreSQL pod for the changes to take effect:
+
+   ```bash
+   kubectl delete pod <pod-name>
+   ```
+
+   Kubernetes will automatically create a new pod to replace the deleted one.
+
+
+
 
