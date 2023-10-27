@@ -2,15 +2,19 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
+	"go-training/exercise_gin_gonic/globals"
+	"go-training/exercise_gin_gonic/handlers"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
+func init() {
+	dsn := "host=localhost user=postgres password=postgres dbname=postgres port=5432 sslmode=disable TimeZone=Europe/Amsterdam"
+	globals.Database, _ = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+}
+
 func main() {
-	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"status": "OK",
-		})
-	})
-	r.Run()
+	router := gin.Default()
+	router.GET("/api/books/:bookId", handlers.GetBook)
+	router.Run()
 }
