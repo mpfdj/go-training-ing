@@ -134,8 +134,8 @@ psql -h localhost -p 5432 -U postgres
 kubernetes cluster cnpg psql user postgres has no password assigned
 
 
-
-
+kubectl.exe config get-contexts
+kubectl config set-context --current --namespace=<MY_NAMESPACE>
 
 
 
