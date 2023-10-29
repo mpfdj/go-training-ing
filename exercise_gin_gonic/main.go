@@ -17,5 +17,6 @@ func main() {
 	router := gin.Default()
 	router.GET("/api/books/:bookId", handlers.GetBook)
 	router.GET("/api/books/:bookId/reviews", handlers.GetReviews)
+	router.POST("/api/books/:bookId/reviews", handlers.PostReview)
 	router.Run()
 }
