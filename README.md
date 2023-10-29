@@ -66,12 +66,17 @@ docker exec --rm -it go-docker-demo /bin/bash
 # k3d
 https://github.com/k3d-io/k3d/releases
 https://github.com/k3d-io/k3d
-k3d cluster create k3d-training
+k3d cluster create training
 k3d cluster ls
 kubectl get nodes
 kubectl get pods -A
+kubectl config get-contexts
+kubectl config set-context --current --namespace=<MY_NAMESPACE>
+k3d cluster start k3d-training
 
-
+# k3d Delete context
+kubectl config get-contexts
+kubectl config delete-context k3d-training
 
 
 # Messaging
@@ -134,14 +139,19 @@ psql -h localhost -p 5432 -U postgres
 kubernetes cluster cnpg psql user postgres has no password assigned
 
 
-kubectl.exe config get-contexts
-kubectl config set-context --current --namespace=<MY_NAMESPACE>
 
 
 
 # ------------------------------------------------------
 # Set password for postgres user
 # ------------------------------------------------------
+powershell> kubectl exec -it cluster-example-1 -- /bin/bash
+bash> psql -U postgres
+sql> ALTER USER postgres PASSWORD 'postgres';
+sql> \q
+bash> exit
+
+
 
 
 If you have a Kubernetes cluster running and you want to set a password for the `postgres` user in a PostgreSQL database, you can do so by following these steps:

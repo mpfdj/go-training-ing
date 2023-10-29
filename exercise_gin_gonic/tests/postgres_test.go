@@ -25,6 +25,13 @@ type Books struct {
 	Num_pages int
 }
 
+type Reviews struct {
+	Id      int `gorm:"primaryKey"`
+	BookId  int
+	Rating  int
+	Comment string
+}
+
 func TestWithPostgres(t *testing.T) {
 	dsn := "host=localhost user=postgres password=postgres dbname=postgres port=5432 sslmode=disable TimeZone=Europe/Amsterdam"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
@@ -49,5 +56,40 @@ func TestWithPostgres(t *testing.T) {
 	}
 
 	fmt.Printf("%#v\n", books)
+
+}
+
+func TestCreateReview(t *testing.T) {
+
+	dsn := "host=localhost user=postgres password=postgres dbname=postgres port=5432 sslmode=disable TimeZone=Europe/Amsterdam"
+	db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+
+	db.AutoMigrate(&Reviews{})
+
+	review := Reviews{
+		BookId:  1,
+		Rating:  3,
+		Comment: "This book just go too many pages...",
+	}
+
+	result := db.Create(&review)
+	fmt.Printf("%#v\n", result)
+}
+
+func TestGetReviews(t *testing.T) {
+	dsn := "host=localhost user=postgres password=postgres dbname=postgres port=5432 sslmode=disable TimeZone=Europe/Amsterdam"
+	db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+
+	db.AutoMigrate(&Reviews{})
+
+	var reviews []Reviews
+	result := db.Where("book_id = ?", -1).Find(&reviews)
+
+	fmt.Printf("%#v\n", result)
+	fmt.Printf("%#v\n", reviews)
+
+	if result.RowsAffected == 0 {
+		fmt.Println("Returning a 404")
+	}
 
 }

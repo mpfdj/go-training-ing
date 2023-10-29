@@ -8,27 +8,25 @@ import (
 	"strconv"
 )
 
-type Books struct {
-	Id        int `gorm:"primaryKey"`
-	Title     string
-	Isbn      string
-	Language  string
-	Publisher string
-	Num_pages int
+type Reviews struct {
+	Id      int `gorm:"primaryKey"`
+	BookId  int
+	Rating  int
+	Comment string
 }
 
-func GetBook(c *gin.Context) {
+func GetReviews(c *gin.Context) {
 	bookId := c.Param("bookId")
 	id, _ := strconv.Atoi(bookId)
 
 	db := globals.Database
-	db.AutoMigrate(&Books{})
+	db.AutoMigrate(&Reviews{})
 
-	var books Books
-	result := db.First(&books, "id = ?", id)
+	var reviews []Reviews
+	result := db.Where("book_id = ?", id).Find(&reviews)
 
 	fmt.Printf("%#v\n", result)
-	fmt.Printf("%#v\n", books)
+	fmt.Printf("%#v\n", reviews)
 
 	if result.RowsAffected == 0 {
 		c.JSON(http.StatusNotFound, gin.H{
@@ -37,5 +35,5 @@ func GetBook(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, books)
+	c.JSON(http.StatusOK, reviews)
 }
