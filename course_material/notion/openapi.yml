@@ -1,0 +1,94 @@
+openapi: 3.1.0
+info:
+  title: Department API
+  version: 0.0.1
+  license:
+    name: MIT
+    identifier: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: http://localhost:8000
+components:
+  schemas:
+    Department:
+      type: object
+      example:
+      required:
+        - dCode
+        - departmentName
+        - ownerCode
+        - ownerName
+        - costCode
+        - productIds
+      properties:
+        dCode:
+          type: string
+        departmentName:
+          type: string
+        ownerCode:
+          type: string
+        ownerName:
+          type: string
+        costCode:
+          type: string
+        productIds:
+          type: array
+          items:
+            type: string
+    Error:
+      type: object
+      example:
+        message: Department not found
+      required:
+        - message
+      properties:
+        message:
+          type: string
+
+paths:
+  /api/departments:
+    get:
+      summary: Get departments
+      security: []
+      operationId: listDepartments
+      responses:
+        "200":
+          description: Departments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Department"
+        "404":
+          description: department not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/departments/{code}:
+    get:
+      summary: Get department details by ID
+      security: []
+      operationId: getDepartment
+      parameters:
+        - name: code
+          in: path
+          description: Department code
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Department details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Department"
+        "404":
+          description: department not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
